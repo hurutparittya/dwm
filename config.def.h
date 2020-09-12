@@ -54,9 +54,29 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *volumeup[] = { "amixer", "set", "Master", "10%+", NULL };
+static const char *volumedown[] = { "amixer", "set", "Master", "10%-", NULL };
+static const char *togglesound[] = { "amixer", "set", "Master", "toggle", NULL };
+static const char *togglemicrophone[] = { "amixer", "set", "Capture", "toggle", NULL };
+static const char *brightnessup[] = { "bash", "-c", "echo $(( $(cat /sys/class/backlight/intel_backlight/brightness) + 493 )) > /sys/class/backlight/intel_backlight/brightness", NULL };
+static const char *brightnessdown[] = { "bash", "-c", "echo $(( $(cat /sys/class/backlight/intel_backlight/brightness) - 493 )) > /sys/class/backlight/intel_backlight/brightness", NULL };
+static const char *lockscreen[] = { "slock", NULL };
+static const char *previous[] = { "playerctl", "previous", NULL };
+static const char *next[] = { "playerctl", "next", NULL };
+static const char *pauseplay[] = { "playerctl", "play-pause", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ 0,				0x1008ff12,spawn,	   {.v = togglesound} },
+	{ 0,				0x1008ff11,spawn,	   {.v = volumedown} },
+	{ 0,				0x1008ff13,spawn,	   {.v = volumeup} },
+	{ 0,				0x1008ffb2,spawn,	   {.v = togglemicrophone} },
+	{ 0,				0x1008ff03,spawn,	   {.v = brightnessdown} },
+	{ 0,				0x1008ff02,spawn,	   {.v = brightnessup} },
+	{ 0,				0x1008ff2d,spawn,	   {.v = lockscreen} },
+	{ 0,				0x1008ff16,spawn,	   {.v = previous} },
+	{ 0,				0x1008ff17,spawn,	   {.v = next} },
+	{ 0,				0x1008ff14,spawn,	   {.v = pauseplay} },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
